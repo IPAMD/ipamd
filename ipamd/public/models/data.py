@@ -62,3 +62,13 @@ class Ratio(AnalysisResult):
         self.meta.update({
             "labels": labels
         })
+
+class String(AnalysisResult):
+    """
+    String data type
+    """
+    def __init__(self, title, data):
+        self.meta = {
+            "title": title
+        }
+        self.data = data

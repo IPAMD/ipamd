@@ -6,7 +6,7 @@ configure = {
     "schema": 'frame',
     "apply": ['persistency_dir']
 }
-def func(filename, persistency_dir, frame, ignoring_pbc = False):
+def func(filename, persistency_dir, frame, ignoring_pbc = False, indent = True):
     prop = frame.properties(ignoring_image=ignoring_pbc)
     conf_path = os.path.join(persistency_dir, filename + '.xml')
     map_path = os.path.join(persistency_dir, filename + '.map')
@@ -108,7 +108,7 @@ def func(filename, persistency_dir, frame, ignoring_pbc = False):
         }
     }
     with open(conf_path, 'w', encoding='utf-8') as f:
-        f.write(dict_to_xml(d))
+        f.write(dict_to_xml(d, indent=indent))
     with open(map_path, 'w', encoding='utf-8') as f:
         for i, extra in enumerate(extras):
             f.write(f'{i} {extra['type']} {extra['CG']}\n')

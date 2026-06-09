@@ -1,7 +1,8 @@
 from functools import singledispatch
+import numpy as np
 from ipamd.public.models.data import *
 from ipamd.public.utils.output import output, tabulate
-import numpy as np
+
 
 configure = {
     "alias": 'print',
@@ -64,4 +65,6 @@ def _(data: Distribution, precision):
         formatted_row = ', '.join([f'{x:.{precision}f}' for x in group_i])
         output(f'{bin_range}: [{formatted_row}]')
 
-
+@print_data.register
+def _(data: String, precision):
+    output(f'{data.meta["title"]}: "{data.data}"')

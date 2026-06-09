@@ -2,12 +2,13 @@
 plugin to calculate the free energy of the slab simulation
 """
 import math
+import sys
 from scipy.optimize import curve_fit
 import numpy as np
 from ipamd.public.utils.plugin_manager_v1 import PluginBase
 from ipamd.public.constant import r
 from ipamd.public.models.data import Vector
-from ipamd.public.utils.output import warning
+from ipamd.public.utils.output import warning, error
 
 
 def func(box, target_frame, direction='Z', d=1, **kwargs):
@@ -39,7 +40,13 @@ def func(box, target_frame, direction='Z', d=1, **kwargs):
                 first_cross_index = i
         elif data[i] >= max_density * 0.5 > data[i + 1]:
             last_cross_index = i + 1
-    center = (first_cross_index + last_cross_index) / 2
+
+    try:
+        center = (first_cross_index + last_cross_index) / 2
+    except TypeError:
+        error('Falied to find the phase boundary. Please check the simulation settings.')
+        sys.exit(1)
+
     left_side_data = data[:int(center) + 1][::-1]
     right_side_data = data[math.ceil(center):]
 

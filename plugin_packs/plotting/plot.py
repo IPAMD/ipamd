@@ -3,7 +3,7 @@ from functools import singledispatch
 from matplotlib import pyplot as plt
 import numpy as np
 
-from ipamd.public.models.data import PointSet, Vector, Matrix, Ratio, Distribution, Scalar
+from ipamd.public.models.data import PointSet, Vector, Matrix, Ratio, Distribution, Scalar, String
 from ipamd.public.utils.output import warning
 from ipamd.public.utils.plugin_manager_v1 import PluginBase
 
@@ -95,6 +95,8 @@ def _(data: Distribution, **kwargs):
 def _(data: Matrix, **kwargs):
     plt.imshow(
         data.data,
+        vmin=kwargs.get('vmin', None),
+        vmax=kwargs.get('vmax', None),
         origin='lower',
         aspect='auto'
     )
@@ -122,8 +124,8 @@ def func(data, style=None, save_figure=False, **kwargs):
     :param kwargs: keyword arguments
     :return: None
     """
-    if isinstance(data, Scalar):
-        warning("Scalar data cannot be plotted.")
+    if isinstance(data, Scalar) or isinstance(data, String):
+        warning("data cannot be plotted.")
         PluginBase.call('print', data)
         return
 

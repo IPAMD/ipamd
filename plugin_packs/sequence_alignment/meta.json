@@ -1,0 +1,9 @@
+{
+  "name": "sequence_alignment",
+  "info": "Sequence alignment plugin.",
+  "dep": [],
+  "scripts": {
+    "sakuanna": ["sequence_align.py"],
+    "data_process": ["print_diff.py"]
+  }
+}

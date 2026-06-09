@@ -1,6 +1,6 @@
 from xml.etree import ElementTree
 
-def __tagged(name, value, attribute={}):
+def __tagged(name, value, attribute={}, indent=True):
     attribute_str = ''
     for key in attribute.keys():
         attribute_str += f' {key}="{attribute[key]}"'
@@ -11,7 +11,7 @@ def __tagged(name, value, attribute={}):
         indented_value = ''
         for line in value.split('\n'):
             if line != '':
-                indented_value += f'    {line}\n'
+                indented_value += f'{"    " if indent else ""}{line}\n'
         header = f'<{name}{attribute_str}>\n'
         footer = f'</{name}>'
         return header + indented_value + footer
@@ -34,7 +34,7 @@ def __xml_to_dict(element):
         child_nodes.update(element.attrib)
         return child_nodes
 
-def __dict_to_xml_helper(d, key_name):
+def __dict_to_xml_helper(d, key_name, indent=True):
     attr_dict = {}
     text = ''
     for key in d.keys():
@@ -45,12 +45,12 @@ def __dict_to_xml_helper(d, key_name):
             else:
                 attr_dict[key] = child
         else:
-            text += __dict_to_xml_helper(child, key) + '\n'
-    result = __tagged(key_name, text, attr_dict)
+            text += __dict_to_xml_helper(child, key, indent=indent) + '\n'
+    result = __tagged(key_name, text, attr_dict, indent=indent)
     return result
 
-def dict_to_xml(d):
+def dict_to_xml(d, indent=True):
     result = '<?xml version="1.0" encoding="UTF-8"?>\n'
     for key in d.keys():
-        result += __dict_to_xml_helper(d[key], key)
+        result += __dict_to_xml_helper(d[key], key, indent)
     return result

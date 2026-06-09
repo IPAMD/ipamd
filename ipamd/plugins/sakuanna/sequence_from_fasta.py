@@ -1,5 +1,5 @@
 import os.path
-from pybioseq.fasta import fastaReader
+from pybioseq.fasta import FastaReader
 from pybioseq.converter import standard_aa, standard_nmp, standard_dnmp
 from ipamd.public.models.sequence import ProteinSequence, DNASequence, RNASequence
 from ipamd.public.utils.output import error
@@ -10,7 +10,7 @@ configure = {
 }
 def func(fasta_path, mol='protein', persistency_dir=None):
     fasta_full_path = os.path.join(persistency_dir, fasta_path)
-    reader = fastaReader(fasta_full_path)
+    reader = FastaReader(fasta_full_path)
     if mol == 'protein':
         sequence_class = ProteinSequence
         check_function = standard_aa

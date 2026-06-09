@@ -1,4 +1,4 @@
-from pybioseq.fasta import fastaWriter
+from pybioseq.fasta import FastaWriter
 import os
 
 configure = {
@@ -7,5 +7,5 @@ configure = {
 def func(sequence, filename='', comment='', persistency_dir=None):
     if filename == '':
         filename = os.path.join(persistency_dir, f"{sequence.name}.fasta")
-    writer = fastaWriter(filename)
+    writer = FastaWriter(filename)
     writer.write(sequence.name, comment, sequence.sequence)
