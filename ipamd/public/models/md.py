@@ -116,6 +116,7 @@ class Molecule:
         self.type_ = type_
         self.cg = cg
         self.atoms = []
+        self.angles = []
         self.__activated_index = -1
         self.length = 0
 
@@ -168,6 +169,27 @@ class Molecule:
                 'type': f'{type1}-{type2}' if type_ == '' else type_
             }
         )
+
+    def add_angle(self, atom1, atom2, atom3, type_=''):
+        """
+        Add an angle to the molecule
+        
+        :param atom1: index of the first atom
+        :param atom2: index of the second atom
+        :param atom3: index of the third atom
+        :param type_: type of the angle
+        :return: None
+        """
+        atom1, atom2, atom3 = sorted([atom1, atom2, atom3])
+        type1 = self.atoms[atom1]['prototype'].get('type')
+        type2 = self.atoms[atom2]['prototype'].get('type')
+        type3 = self.atoms[atom3]['prototype'].get('type')
+        self.angles.append({
+            'atom1': atom1,
+            'atom2': atom2,
+            'atom3': atom3,
+            'type': f'{type1}-{type2}-{type3}' if type_ == '' else type_
+        })
 
     def transform(self, m, by='zero'):
         """
@@ -257,10 +279,9 @@ class Molecule:
         :return: list of bonds
         """
         bond_list = []
-        for i in range(len(self.atoms)):
-            atom1 = self.atoms[i]
-            neighbour_list = atom1['links']
-            for j in neighbour_list:
+        for i, atom1 in enumerate(self.atoms):
+            neighbor_list = atom1['links']
+            for j in neighbor_list:
                 bond_list.append({
                     'type': j['type'],
                     'atom1': i,
@@ -296,7 +317,8 @@ class Molecule:
             'position': [],
             'bond': [],
             'velocity': [],
-            'rigid_group': []
+            'rigid_group': [],
+            'angle': self.angles
         }
         for atom in self.atoms:
             result['type'].append(atom['prototype'].get('type'))
@@ -346,7 +368,19 @@ class Molecule:
         return t, R
 
 class Environment:
-    __epsilon = lambda t: 5321 / t + 233.76 - 0.9297 * t + 1.417e-3 * t ** 2 - 8.292e-7 * t ** 3
+    """
+    Environment class
+    """
+    @staticmethod
+    def __epsilon(t):
+        """
+        Get the dielectric constant of the environment
+        
+        :param t: temperature
+        :return: dielectric constant
+        """
+        return 5321 / t + 233.76 - 0.9297 * t + 1.417e-3 * t ** 2 - 8.292e-7 * t ** 3
+
     def __init__(self, name=None):
         if name=='pure water' or name is None:
             self.values = {
@@ -466,6 +500,7 @@ class Frame:
                 'molecule_type': molecule['prototype'].type_,
                 'n_atoms': molecule['prototype'].length,
                 'n_bonds': len(prop['bond']),
+                'n_angles': len(prop['angle']),
                 'bonds': prop['bond'],
                 'type': prop['type'],
                 'mass': [value_of(mass, env) for mass in prop['mass']],
@@ -474,6 +509,7 @@ class Frame:
                 'image': [],
                 'rigid_group': prop['rigid_group'],
                 'velocity': prop['velocity'],
+                'angles': prop['angle']
             }
             if not ignoring_image:
                 for position in prop['position']:

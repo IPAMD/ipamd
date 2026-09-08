@@ -3,9 +3,9 @@ from ipamd.public.utils.math import polar_to_cartesian
 from ipamd.public.models.sequence import ProteinSequence
 import math
 configure = {
-    "apply": ['ff']
+    "resource": ['ff'],
 }
-def func(protein: ProteinSequence, ff, d=0.38):
+def func(protein: ProteinSequence, ff=None, d=0.38):
     molecule = Molecule(protein.name, cg='CA')
     length = len(protein)
     r = 0.38

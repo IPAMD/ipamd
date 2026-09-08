@@ -23,7 +23,7 @@ def func(filename, persistency_dir, frame, ff):
     cg_map = []
     env = frame.box.env.values
     try:
-        with open(map_path, 'r') as f:
+        with open(map_path, 'r', encoding='utf-8') as f:
             map_content = f.read()
             map_content = map_content.split('\n')
             for line in map_content:
@@ -46,16 +46,28 @@ def func(filename, persistency_dir, frame, ff):
     frame.set_size(x, y, z)
     atom_num = int(molecule_configure['type']['num'])
 
-    content = lambda name: list(map(lambda s: s.strip(), molecule_configure[name]['text'].split('\n')))
-    type_content = content('type')
-    body_content =  content('body')
-    mass_content = content('mass')
-    charge_content = content('charge')
-    position_content = content('position')
-    image_content = content('image')
-    molecule_index_content = content('molecule')
-    bond_content = content('bond')
-    velocity_content = content('velocity')
+    def get_content(name):
+        if name in molecule_configure.keys():
+            node_txt = molecule_configure[name]['text']
+        else:
+            node_txt = ''
+        return list(
+            map(
+                lambda s: s.strip(),
+                node_txt.split('\n')
+            )
+        )
+
+    type_content = get_content('type')
+    body_content =  get_content('body')
+    mass_content = get_content('mass')
+    charge_content = get_content('charge')
+    position_content = get_content('position')
+    image_content = get_content('image')
+    molecule_index_content = get_content('molecule')
+    bond_content = get_content('bond')
+    velocity_content = get_content('velocity')
+    angle_content = get_content('angle')
 
     current_molecule_index = 0
     current_atom_index_in_mol = 0
@@ -74,6 +86,7 @@ def func(filename, persistency_dir, frame, ff):
             cg = cg_map[current_molecule_index] if len(cg_map) != 0 else 'CA'
             molecule = Molecule(mn, cg)
             current_atom_index_in_mol = 0
+
 
         atom_map.append((current_molecule_index, current_atom_index_in_mol))
         current_atom_index_in_mol += 1
@@ -122,6 +135,19 @@ def func(filename, persistency_dir, frame, ff):
         atom_id1 = atom_map[index1][1]
         atom_id2 = atom_map[index2][1]
         contained_molecules[molecule_id].link(atom_id1, atom_id2, type_=bond_type)
+
+    for angle in angle_content:
+        if angle == '':
+            continue
+        angle_type, index1, index2, index3 = angle.split()
+        index1 = int(index1)
+        index2 = int(index2)
+        index3 = int(index3)
+        molecule_id = atom_map[index1][0]
+        atom_id1 = atom_map[index1][1]
+        atom_id2 = atom_map[index2][1]
+        atom_id3 = atom_map[index3][1]
+        contained_molecules[molecule_id].add_angle(atom_id1, atom_id2, atom_id3, type_=angle_type)
 
     for molecule in contained_molecules:
         frame.add_molecule(molecule)

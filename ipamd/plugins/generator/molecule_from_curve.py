@@ -2,10 +2,11 @@ from ipamd.public.models.md import Molecule, Atom
 from ipamd.public.models.sequence import Sequence
 
 configure = {
-    "apply": ['ff']
+    "resource": ['ff'],
 }
+
 def func(
-    mol: Sequence, curve, ff, start_add=0, end_add=0, cg="MC", rename_map={}, new_bond="B-B"
+    mol: Sequence, curve, start_add=0, end_add=0, cg="MC", rename_map={}, new_bond="B-B", ff=None
 ):
     molecule = Molecule(mol.name, cg=cg)
     for index, r in enumerate(mol.sequence):

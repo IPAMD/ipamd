@@ -6,6 +6,7 @@
 - **Python**：>= 3.12
 - **许可证**：[LGPL-3.0](LICENSE)
 - **详细文档**：[doc/IPAMD Documation.md](doc/IPAMD%20Documation.md)
+- **示例**：[demo/](demo/)
 - **论文引用**：doi:[10.1021/acs.jctc.5c00147](https://doi.org/10.1021/acs.jctc.5c00147)
 
 ## 特性
@@ -42,7 +43,7 @@ pip install .
 
 ### 依赖
 
-核心依赖：`numpy`、`numba`、`rich`、`pybioseq`、`periodictable`。部分插件（如绘图、Pandas 导出）需要额外安装 `matplotlib`、`pandas` 等，安装插件时会自动提示并安装。
+核心依赖：`numpy`、`numba`、`rich`、`periodictable`。部分插件（如绘图、Pandas 导出）需要额外安装 `matplotlib`、`pandas` 等，安装插件时会自动提示并安装。
 
 ## 快速开始
 
@@ -79,7 +80,7 @@ simulation.run()
 | 示例 | 说明 |
 |------|------|
 | [single_chain_simulation](demo/single_chain_simulation/) | 单链蛋白模拟 |
-| [basic_example](demo/basic_example/) | 液滴模拟与接触分析（需 `plotting` 插件） |
+| [basic_example](demo/basic_example/) | 液滴模拟与接触、RDF、MSD、密度分析（需 `plotting` 插件） |
 | [sequence_analysis](demo/sequence_analysis/) | 蛋白质序列分析 |
 | [slab_simulation](demo/slab_simulation/) | Slab 模拟（需 `slab_simulation`、`plotting` 插件） |
 | [RNA+Protein](demo/RNA+Protein/) | RNA + 蛋白复合体系（需 `mpipi_forcefield` 插件） |

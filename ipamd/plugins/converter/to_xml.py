@@ -2,7 +2,6 @@ import os
 import math
 from ipamd.public.utils.xml import dict_to_xml
 configure = {
-    'type': 'function',
     "schema": 'frame',
     "apply": ['persistency_dir']
 }
@@ -20,9 +19,11 @@ def func(filename, persistency_dir, frame, ignoring_pbc = False, indent = True):
     content_bond = ''
     content_molecule = ''
     content_body = ''
+    content_angle = ''
     n_bonds = 0
     n_atoms = 0
     n_molecule = 0
+    n_angles = 0
 
     epsilon = frame.box.env.values['epsilon']
     total_rigid_groups = 0
@@ -42,6 +43,14 @@ def func(filename, persistency_dir, frame, ignoring_pbc = False, indent = True):
         for i in range(molecule['n_atoms']):
             content_molecule += str(n_molecule) + '\n'
         content_body += '\n' .join(map(lambda x: str(-1 if x == -1 else x + total_rigid_groups), molecule['rigid_group'])) + '\n'
+        content_angle += '\n'.join(
+            '\t'.join(
+                map(str,
+                    [angle['type'], angle['atom1'] + n_atoms, angle['atom2'] + n_atoms, angle['atom3'] + n_atoms]
+                )
+            )
+            for angle in molecule['angles']
+        ) + '\n'
         max_group_index = max(molecule['rigid_group'])
         total_rigid_groups += max_group_index + 1
         content_bond += '\n'.join(
@@ -54,6 +63,7 @@ def func(filename, persistency_dir, frame, ignoring_pbc = False, indent = True):
         ) + '\n'
         n_atoms += molecule['n_atoms']
         n_bonds += molecule['n_bonds']
+        n_angles += molecule['n_angles']
         n_molecule += 1
     d = {
         'galamost_xml': {
@@ -103,10 +113,14 @@ def func(filename, persistency_dir, frame, ignoring_pbc = False, indent = True):
                     'num': n_bonds,
                     'text': content_bond
                 }
-
             }
         }
     }
+    if n_angles > 0:
+        d['galamost_xml']['configuration']['angle'] = {
+            'num': n_angles,
+            'text': content_angle
+        }
     with open(conf_path, 'w', encoding='utf-8') as f:
         f.write(dict_to_xml(d, indent=indent))
     with open(map_path, 'w', encoding='utf-8') as f:

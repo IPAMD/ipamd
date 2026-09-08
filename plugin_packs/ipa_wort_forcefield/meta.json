@@ -1,0 +1,11 @@
+{
+  "name": "ipa_wort_forcefield",
+  "info": "IPA Wort forcefield supporting packge.",
+  "dep": [],
+  "scripts": {
+    "generator": ["camc_protein_from_pdb.py"]
+  },
+  "data": {
+    "forcefield": ["ipa_wort.xml"]
+  }
+}

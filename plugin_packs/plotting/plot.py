@@ -130,7 +130,7 @@ def func(data, style=None, save_figure=False, **kwargs):
         return
 
     with plt.rc_context(style):
-
+        plt.figure()
         plot(data, **kwargs)
         plt.title(data.meta['title'])
         plt.tight_layout()
@@ -138,3 +138,4 @@ def func(data, style=None, save_figure=False, **kwargs):
         if save_figure:
             plt.savefig(f"{data.meta['title']}.png")
         plt.show()
+        plt.close()

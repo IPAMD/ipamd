@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ff>
+    <atom_definition>
+        <NMPB charge="-1" mass="194.1"/>
+        <NMPA charge="0" mass="134.1"/>
+        <NMPU charge="0" mass="111.1"/>
+        <NMPC charge="0" mass="110.0"/>
+        <NMPG charge="0" mass="150.1"/>
+    </atom_definition>
+    <ff_param>
+        <ah rcut="2" shift="True">
+            <NMPB lambda="0" sigma="0.6954"/>
+            <NMPA lambda="1.18" sigma="0.6430"/>
+            <NMPU lambda="1.18" sigma="0.5959"/>
+            <NMPC lambda="1.18" sigma="0.6033"/>
+            <NMPG lambda="1.18" sigma="0.6532"/>
+        </ah>
+        <stacking rcut="2" shift="True" />
+        <bond_harmonic>
+            <RB-RB k="1400" r0="0.59"/>
+            <RB-RS k="2200" r0="0.54"/>
+        </bond_harmonic>
+        <angle_harmonic>
+            <RB-RB-RB k="4.2" theta0="180"/>
+        </angle_harmonic>
+    </ff_param>
+</ff>

@@ -48,6 +48,18 @@ def range_to_list(range_str):
             result.append(int(r))
     return result
 
+def frame_index_list(target_frame):
+    """
+    convert target_frame (int, list, or range string) to a list of frame indices
+    """
+    if target_frame is None or target_frame == '':
+        return []
+    if isinstance(target_frame, str):
+        return range_to_list(target_frame)
+    if isinstance(target_frame, (list, tuple, range)):
+        return list(target_frame)
+    return [int(target_frame)]
+
 def protein_range_split(protein_range):
     """
     split protein range into protein type and range

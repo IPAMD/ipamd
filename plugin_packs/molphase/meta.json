@@ -1,0 +1,8 @@
+{
+  "name": "molphase",
+  "info": "Calculate LLPS score by MolPhase.\nPlease cite Liang Q, Peng N, Xie Y, et al. MolPhase, an advanced prediction algorithm for protein phase separation[J]. The EMBO Journal, 2024: 1-21.",
+  "dep": [],
+  "scripts": {
+    "sakuanna": ["molphase_score.py"]
+  }
+}

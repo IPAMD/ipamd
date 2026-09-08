@@ -1,8 +1,21 @@
+# ide related files
+.idea
+.vscode
+
+# build output
 build
 dist
 ipamd.egg-info
-demo/dev
-__pycache__
-.vscode
+
+# private code
 /ipa-core/
+
+# runtime cache
+__pycache__/
+
+# dev files
+demo/dev
+
+# misc
 .VSCodeCounter/
+software_copyright_material/

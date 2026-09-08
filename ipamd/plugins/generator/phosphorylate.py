@@ -2,9 +2,9 @@ import copy
 from ipamd.public.utils.output import warning
 
 configure = {
-    "apply": ['ff']
+    "resource": ['ff'],
 }
-def func(molecule, index, ff):
+def func(molecule, index, ff=None):
     mol = copy.deepcopy(molecule)
     ff = copy.deepcopy(ff)
 

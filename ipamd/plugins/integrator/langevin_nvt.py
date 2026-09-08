@@ -7,5 +7,5 @@ def func(param, all_info, group, gala_core):
         integrator = gala_core.LangevinNVTRigid(all_info, group, t_reduced, random.randint(1, 100))
     else:
         integrator = gala_core.LangevinNVT(all_info, group, t_reduced, random.randint(1, 100))
-    integrator.setGamma(0.001)
+    integrator.setGamma(0.01)
     return integrator

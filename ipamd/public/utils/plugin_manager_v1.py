@@ -1,6 +1,5 @@
 import os
-import sys
-from importlib import import_module
+from importlib import util as importlib_util
 from ipamd.public.utils.output import tabulate
 import inspect
 
@@ -31,13 +30,13 @@ class PluginBase:
                         'location': plugin_dir,
                         'loaded': False
                     }
-    
+
     def def_schema(self, name, schema):
         self.__schema[name] = schema
 
     def add_resource(self, name, value):
         self.__resource[name] = value
-    
+
     def plugin_info(self):
         tabulate(
             title="Plugin Information",
@@ -46,21 +45,24 @@ class PluginBase:
                 (plugin_name,
                  self.__available_plugins[plugin_name]['location'],
                  'loaded' if self.__available_plugins[plugin_name]['loaded'] else '')
-                for plugin_name in self.__available_plugins.keys()
+                for plugin_name in self.__available_plugins
             ]
         )
 
     def load_all(self):
-        for plugin in self.__available_plugins.keys():
+        for plugin in self.__available_plugins:
             self.load(plugin)
 
     def load(self, plugin_name):
         plugin_info = self.__available_plugins[plugin_name]
-        sys.path.append(plugin_info['location'])
         if plugin_info['loaded']:
             return
 
-        module = import_module(plugin_name)
+        plugin_path = os.path.join(plugin_info['location'], plugin_name + '.py')
+        unique_name = f"ipamd_{os.path.basename(plugin_info['location'])}_{plugin_name}"
+        spec = importlib_util.spec_from_file_location(unique_name, plugin_path)
+        module = importlib_util.module_from_spec(spec)
+        spec.loader.exec_module(module)
         configure = {
             "type": "function",
             "schema": [],
@@ -83,7 +85,10 @@ class PluginBase:
                     p.update(self.__schema[s](*args, **kwargs))
                 for res in recourses:
                     if res in self.__resource:
-                        p[res] = self.__resource[res]
+                        if callable(self.__resource[res]):
+                            p[res] = self.__resource[res]()
+                        else:
+                            p[res] = self.__resource[res]
                 return module.func(*args, **kwargs, **p)
 
             ipamd_wrapped_function.attr = configure['attributes']
@@ -105,4 +110,3 @@ class PluginBase:
         else:
             raise ValueError(f"Unknown plugin type: {configure['type']}")
         plugin_info['loaded'] = True
-        sys.path.remove(plugin_info['location'])

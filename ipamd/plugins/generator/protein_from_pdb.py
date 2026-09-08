@@ -7,15 +7,20 @@ from ipamd.public.utils.output import warning, info, error
 from ipamd.public.utils.parser import range_to_list
 
 configure = {
-    "schema": 'io',
-    'apply': ['ff']
+    "resource": ['persistency_dir', 'ff'],
 }
 def func(
-    file_name, working_dir, ff,
-    ignoring_h=True, cg='mass_center', rigid_range='',
-    rigid_from_plddt=False, threshold=70, max_gap=4
+    file_name,
+    persistency_dir=None,
+    ff=None,
+    ignoring_h=True,
+    cg='mass_center',
+    rigid_range='',
+    rigid_from_plddt=False,
+    threshold=70,
+    max_gap=4
 ):
-    reader = PdbReader(os.path.join(working_dir, file_name))
+    reader = PdbReader(os.path.join(persistency_dir, file_name))
     res = reader.read()
     if res.meta.pdb_id:
         protein_name = res.meta.pdb_id
@@ -37,7 +42,7 @@ def func(
     elif rigid_from_plddt:
         for chain in model:
             for residue_id, residue in enumerate(chain.residues):
-                plddt = residue.atoms[0].temp_factor
+                plddt = residue.atoms[0].temp_factor * 100
                 if plddt > threshold:
                     if len(rigid_groups) == 0:
                         rigid_groups.append([residue_id])

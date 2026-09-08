@@ -3,10 +3,9 @@ from ipamd.public.utils.parser import range_to_list
 import os
 
 configure = {
-    "schema": 'io',
-    "apply": ['ff']
+    "resource": ['persistency_dir', 'ff'],
 }
-def func(file_name, working_dir, ff, rigid_range=''):
+def func(file_name, persistency_dir=None, ff=None, rigid_range=''):
     position_of_last_dot = file_name.rfind('.')
     protein_name = file_name[:position_of_last_dot]
     molecule = Molecule(protein_name, cg='CM')
@@ -29,7 +28,8 @@ def func(file_name, working_dir, ff, rigid_range=''):
         if len(group) >= 2:
             rigid_groups_filtered.append(group)
     rigid_groups = rigid_groups_filtered
-    with (open(os.path.join(working_dir, file_name), 'r') as f):
+    full_path = os.path.join(persistency_dir, file_name)
+    with open(full_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         residue_id = 0
         for line in lines:

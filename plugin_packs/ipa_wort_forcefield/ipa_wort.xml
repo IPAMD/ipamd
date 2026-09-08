@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ff>
+    <atom_definition>
+        <BB charge="0" mass="100"/>
+        <AS charge="0" mass="71.07"/>
+        <FS charge="0" mass="147.18"/>
+        <CS charge="0" mass="103.14"/>
+        <DS charge="-0.75" mass="115.09"/>
+        <NS charge="0" mass="114.1"/>
+        <ES charge="-0.75" mass="129.11"/>
+        <QS charge="0" mass="128.13"/>
+        <HS charge="0" mass="57.05"/>
+        <LS charge="0" mass="113.16"/>
+        <IS charge="0" mass="113.16"/>
+        <KS charge="0.75" mass="128.17"/>
+        <MS charge="0" mass="131.2"/>
+        <PS charge="0" mass="97.12"/>
+        <RS charge="0.75" mass="156.19"/>
+        <SS charge="0" mass="87.08"/>
+        <TS charge="0" mass="101.11"/>
+        <VS charge="0" mass="99.13"/>
+        <WS charge="0" mass="186.22"/>
+        <YS charge="0" mass="163.18"/>
+    </atom_definition>
+    <ff_param>
+
+    </ff_param>
+</ff>

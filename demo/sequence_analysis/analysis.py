@@ -2,7 +2,43 @@ from ipamd import App
 from ipamd.public.models.sequence import ProteinSequence
 
 app = App('sequence_analysis', gpu_id=0)
-sequence = ProteinSequence(name='test', sequence='ACDEFGHIKLMNPQRSTVWY')
-app.sakuanna.pretier(sequence, word3=True, ter=True)
-res = app.sakuanna.statistic(sequence, targets=['A', 'charged'], format_='ratio')
-app.data_process.plot(res)
+sequence = ProteinSequence(
+    name='FUS',
+    sequence='MASNDYTQQATQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGY'
+    'GTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQS'
+    'YGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGGGNYGQDQSSMSSGGGSGGGYGNQDQSGGGGSGGYGQQDRGGRGR'
+    'GGSGGGGGGGGGGYNRSSGGYEPRGRGGGRGGRGGMGGSDRGGFNKFGGPRDQGSRHDSEQDNSDNNTIFVQGLGE'
+    'NVTIESVADYFKQIGIIKTNKKTGQPMINLYTDRETGKLKGEATVSFDDPPSAKAAIDWFDGKEFSGNPIKVSFAT'
+    'RRADFNRGGGNGRGGRGRGGPMGRGGYGGGGSGGGGRGGFPSGGGGGGGQQRAGDWKCPNPTCENMNFSWRNECNQ'
+    'CKAPKPDGPGGGPGGSHMGGNYGDDRRGGRGGYDRGGYRGRGGDRGGFRGGRGGGDRGGFGPGKMDSRGEHRQDRRERPY')
+sequence_mut = ProteinSequence(
+    name='FUS_M',
+    sequence='MASNDYTQQDTQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGY'
+    'GTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQS'
+    'YGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGGGNYGQDQSSMSSGGGSGGGYGNQDQSGGGGSGGYGQQDRGGRGR'
+    'GGSGGGGGGGGGGYNRSSGGYEPRGRGGGRGGRGGMGGSDRGGFNKFGGPRDQGSRHDSEQDNSDNNTIFVQGLGE'
+    'NVTIESVADYFKQIGIIKTNKKTGQPMINLYTDRETGKLKGEATVSFDDPPSAKAAIDWFDGKEFSGNPIKVSFAT'
+    'RRADFNRGGGNGRGGRGRGGPMGRGGYGGGGSGGGGRGGFPSGGGGGGGQQRAGDWKCPNPTCENMNFSWRNECNQ'
+    'CKAPKPDGPGGGPGGSHMGGNYGDDRRGGRGGYDRGGYRGRGGDRGGFRGGRGGGDRGGFGPGKMDSRGEHRQDRRERPY')
+#app.sakuanna.pretier(sequence, word3=True, ter=True)
+app.data_process.print(app.sakuanna.molphase_score(sequence))
+#app.data_process.plot(
+#    app.sakuanna.statistic(sequence, targets=['positive', 'negative'], format_='ratio')
+#)
+#app.data_process.plot(
+#    app.sakuanna.tag(sequence, tags={
+#            '+': ['K', 'R', 'H'],
+#            '-': ['D', 'E'],
+#            'neutral': 'rest'
+#        }
+#    ),
+#    appearance='discrete_heatmap',
+#    style={
+#        'figure.figsize': (10, 3),
+#        'font.size': 15,
+#        'font.family': 'Times New Roman'
+#    }
+#)
+#seq1, seq2, _ = app.sakuanna.sequence_align(sequence_mut, sequence)
+#app.data_process.print_diff(seq1, seq2)
+#

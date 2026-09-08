@@ -1,12 +1,11 @@
 from ipamd.public.models.md import Box
 from ipamd.public.utils.output import warning
 configure = {
-    "schema": 'io',
-    "apply": ["ff"]
+    "resource": ['persistency_dir', 'ff'],
 }
 
-def func(filename, ff, working_dir):
-    tmp_box = Box(0, 0, 0, ff, working_dir)
+def func(filename, ff, persistency_dir=None):
+    tmp_box = Box(0, 0, 0, ff, persistency_dir)
     tmp_box.new_frame()
     tmp_box.read_xml(filename)
     molecules = tmp_box.current_frame().molecules

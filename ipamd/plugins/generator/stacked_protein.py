@@ -3,9 +3,9 @@ from ipamd.public.models.sequence import ProteinSequence
 import math
 import copy
 configure = {
-    "apply": ['ff']
+    "resource": ['ff'],
 }
-def func(protein: ProteinSequence, ff, span=2):
+def func(protein: ProteinSequence, ff=None, span=2):
     molecule = Molecule(protein.name, cg='CA')
     length = len(protein)
     n_group = math.ceil(length / span)

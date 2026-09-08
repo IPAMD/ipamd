@@ -1,0 +1,19 @@
+{
+  "name": "calvados_rna",
+  "info": "Calvados RNA supporting package. Compatible with the Calvados2 force field.",
+  "dep": [],
+  "scripts": {
+    "generator": [
+      "calvados_rna_from_sequence.py",
+      "calvados_rna_from_pdb.py"
+    ],
+    "force": [
+      "stacking.py",
+      "angle_harmonic.py"
+    ]
+  },
+  "data": {
+    "forcefield": ["Calvados_rna.xml"],
+    "molecules": ["polyU.pdb"]
+  }
+}

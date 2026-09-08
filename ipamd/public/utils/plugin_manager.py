@@ -44,7 +44,7 @@ class PluginBase:
                             'location': plugin_dir,
                             'loaded': False
                         }
-    
+
     def def_schema(self, name, schema):
         self.__schema[name] = schema
 

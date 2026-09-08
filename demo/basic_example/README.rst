@@ -1,7 +1,7 @@
 Basic Example
 =============
 
-Run a droplet simulation and analyze the contacts between amino acids. Need to install plotting plugin.
+Run a droplet simulation and analyze intermolecular contacts, RDF, MSD and density along X. Need to install plotting plugin.
 
 .. code-block:: bash
 

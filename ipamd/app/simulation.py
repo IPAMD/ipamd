@@ -83,7 +83,6 @@ class Simulation:
             gpu_id=self.__app.gpu_id,
             thermo_bath=thermo_bath,
             force_field=self.__app.force_field,
-            res_auto_read=res_auto_read,
             minimize_energy=minimize_energy,
             fixed_particle=fixed_particle
         )
@@ -105,7 +104,6 @@ class Simulation:
             gpu_id,
             thermo_bath,
             force_field,
-            res_auto_read,
             minimize_energy,
             fixed_particle
         ):
@@ -122,8 +120,7 @@ class Simulation:
             self.period = period
             self.__thermo_bath = thermo_bath
             self.__force_field = force_field
-            self.__res_auto_read = res_auto_read
-            self.__should_minimize_energy = minimize_energy,
+            self.__should_minimize_energy = minimize_energy
             self.__fixed_particle = fixed_particle
 
         def __parse_force(self, all_info, force, param):
@@ -246,12 +243,11 @@ class Simulation:
                         os.remove(os.path.join(self.__working_dir, old_file))
                 self.__run_simulation(input_file_path)
 
-            if self.__res_auto_read:
-                self.__simulation_box.clean()
-                matching_files = self.__outputs()
-                for file in matching_files:
-                    self.__simulation_box.new_frame()
-                    self.__simulation_box.read_xml(file[:-4])
+            self.__simulation_box.clean()
+            matching_files = self.__outputs()
+            for file in matching_files:
+                self.__simulation_box.new_frame()
+                self.__simulation_box.read_xml(file[:-4])
 
             info('Simulation finished')
 
@@ -320,7 +316,8 @@ class Simulation:
                     'velocity',
                     'mass',
                     'charge',
-                    'body'
+                    'body',
+                    'angle'
                 ]
             )
             target_app.add(xml)

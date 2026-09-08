@@ -2,9 +2,9 @@ from ipamd.public.models.md import Molecule, Atom
 from ipamd.public.models.sequence import ProteinSequence
 
 configure = {
-    "apply": ['ff']
+    "resource": ['ff'],
 }
-def func(protein: ProteinSequence, ff):
+def func(protein: ProteinSequence, ff=None):
     molecule = Molecule(protein.name, cg='CA')
     length = len(protein)
     z = 0.0

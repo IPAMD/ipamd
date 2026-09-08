@@ -5,7 +5,6 @@ from ipamd.public.models.sequence import ProteinSequence, DNASequence, RNASequen
 from ipamd.public.utils.output import error
 
 configure = {
-    'type': 'function',
     "resource": ['persistency_dir']
 }
 def func(fasta_path, mol='protein', persistency_dir=None):

@@ -12,4 +12,5 @@ class MdAnalysis(PluginBase):
             }
         )
         self.app = app
+        self.add_resource('working_dir', lambda: self.app.working_dir)
         self.load_all()

@@ -1,13 +1,14 @@
+import os
 import pypdbio
 from ipamd.public.utils.output import error, info
 configure = {
-    "schema": 'io',
+    "resource": ['persistency_dir'],
 }
-def func(pdb_id, working_dir):
+def func(pdb_id, persistency_dir=None):
     try:
         pypdbio.fetch(
             pdb_id,
-            working_dir + '/' + pdb_id + '.pdb',
+            os.path.join(persistency_dir, pdb_id + '.pdb'),
         )
     except Exception as e:
         error('Failed to download ' + pdb_id + ' from RCSB. ' + str(e))
